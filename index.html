@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111714">
+<title>Primer Amor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Manrope:wght@500;700;800&display=swap">
+<style>
+/* Layout: app de una columna pensada para el celular, con barra inferior como una red social;
+   "Historias" es un feed vertical de tarjetas a pantalla completa. Tema: lámpara de aceite. */
+:root{
+  --bg:#ECEFEA; --surface:#FFFFFF; --raised:#F6F8F4; --ink:#18221E; --muted:#5B6862; --line:#D5DBD3;
+  --flame:#B8660F; --flame-soft:#F6E6CC; --olive:#4F6B42; --olive-soft:#E1EAD9; --rose:#A3475A;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --read:"Literata", Georgia, serif;
+  --ui:"Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --nav-h:64px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111714; --surface:#19211D; --raised:#1F2924; --ink:#E7EBE4; --muted:#9CA9A1; --line:#2B3731;
+    --flame:#F0A63E; --flame-soft:#2E2618; --olive:#A3C38E; --olive-soft:#1F2B1D; --rose:#E48A9C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111714; --surface:#19211D; --raised:#1F2924; --ink:#E7EBE4; --muted:#9CA9A1; --line:#2B3731;
+  --flame:#F0A63E; --flame-soft:#2E2618; --olive:#A3C38E; --olive-soft:#1F2B1D; --rose:#E48A9C;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--flame);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--flame);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:2.1rem} h2{font-size:1.6rem} h3{font-size:1.25rem}
+p{margin:0}
+.app{max-width:34rem;margin:0 auto;padding-block:1.2rem calc(var(--nav-h) + 2rem + env(safe-area-inset-bottom,0px))}
+.view{display:flex;flex-direction:column;gap:1.1rem}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--flame)}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.15rem 1.2rem;display:flex;flex-direction:column;gap:.75rem;min-width:0}
+.read{font-family:var(--read);font-size:1.05rem;line-height:1.7}
+blockquote{margin:0;font-family:var(--read);font-style:italic;font-size:1.08rem;line-height:1.6;border-left:2px solid var(--flame);padding-left:.9rem}
+blockquote cite{display:block;font-style:normal;font-family:var(--ui);font-size:.75rem;letter-spacing:.06em;color:var(--muted);margin-top:.35rem;text-transform:uppercase}
+blockquote cite a{color:inherit}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.btn{appearance:none;border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:999px;padding:.6rem 1.1rem;font:700 .9rem var(--ui);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.flame{background:var(--flame);border-color:var(--flame);color:var(--bg)}
+.btn.sm{padding:.35rem .75rem;font-size:.8rem}
+.btn[aria-pressed="true"]{background:var(--olive);border-color:var(--olive);color:var(--bg)}
+.chips{display:flex;gap:.45rem;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:.45rem .85rem;font:700 .85rem var(--ui);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--flame);border-color:var(--flame);color:var(--bg)}
+input[type=text],textarea{width:100%;border:1px solid var(--line);background:var(--raised);color:var(--ink);border-radius:12px;padding:.7rem .85rem;font:1rem/1.5 var(--ui)}
+textarea{min-height:7rem;resize:vertical;font-family:var(--read)}
+.sync{font-size:.72rem;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:.35rem}
+.sync i{width:.5rem;height:.5rem;border-radius:50%;background:var(--muted)}
+.sync.on i{background:var(--olive)}
+
+/* hero */
+.hero{display:flex;flex-direction:column;gap:.6rem;padding-top:.4rem}
+.toprow{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.lamp{width:56px;height:56px}
+.lamp .fl{fill:var(--flame);transform-origin:28px 30px;animation:flick 3.2s ease-in-out infinite}
+.lamp .body{fill:var(--ink)}
+@keyframes flick{0%,100%{transform:scale(1)}40%{transform:scale(1.06,0.96)}70%{transform:scale(.96,1.05)}}
+.msg{background:var(--flame-soft);border-radius:18px;padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.5rem}
+.msg .read{font-size:1rem}
+.night{background:var(--ink);color:var(--bg);border-radius:18px;padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.6rem}
+.night blockquote{border-color:var(--flame)}
+.night blockquote cite{color:color-mix(in srgb,var(--bg) 65%,var(--ink))}
+.night .btn{background:var(--flame);border-color:var(--flame);color:var(--ink)}
+
+/* today */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.links a{background:var(--raised);border:1px solid var(--line);border-radius:14px;padding:.7rem .6rem;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:.1rem;min-width:0}
+.links a small{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.links a b{font-family:var(--display);font-weight:400;font-size:1.1rem;overflow-wrap:anywhere}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal span{aspect-ratio:1;border-radius:6px;background:var(--raised);border:1px solid var(--line);max-width:100%}
+.cal span.r{background:var(--olive-soft);border-color:var(--olive)}
+.cal span.p{background:var(--flame-soft);border-color:var(--flame)}
+.cal span.rp{background:var(--olive);border-color:var(--olive)}
+.cal span.today{outline:2px solid var(--ink);outline-offset:1px}
+.legend{display:flex;gap:.9rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted)}
+.legend i{display:inline-block;width:.75rem;height:.75rem;border-radius:3px;vertical-align:-1px;margin-right:.3rem;border:1px solid var(--line)}
+.books{display:flex;flex-wrap:wrap;gap:.35rem}
+.books button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:.25rem .5rem;font:700 .74rem var(--ui);cursor:pointer}
+.books button[aria-pressed="true"]{background:var(--olive-soft);border-color:var(--olive);color:var(--ink)}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--olive);width:0;transition:width .4s}
+
+/* rescue */
+.rescue-panel h3{color:var(--flame)}
+.step{background:var(--flame-soft);border-radius:12px;padding:.8rem 1rem;font-size:.95rem}
+.step b{color:var(--flame)}
+
+/* prayer */
+.timer{display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center}
+.ring{width:210px;height:210px;max-width:100%}
+.ring circle{fill:none;stroke-width:8}
+.ring .bg{stroke:var(--line)}
+.ring .fg{stroke:var(--flame);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s linear}
+.ring text{fill:var(--ink);font-family:var(--display);font-size:34px}
+.prompt{font-family:var(--read);font-size:1.15rem;line-height:1.6;min-height:5.5rem}
+.prompt b{display:block;font-family:var(--ui);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--flame);margin-bottom:.3rem}
+
+/* feed */
+.feed-wrap{margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));}
+.feed{height:calc(100dvh - var(--nav-h) - 9.5rem - env(safe-area-inset-bottom,0px) - env(safe-area-inset-top,0px));min-height:420px;overflow-y:auto;scroll-snap-type:y mandatory;
+  padding-inline:max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
+.feed::-webkit-scrollbar{display:none}
+.slide{scroll-snap-align:start;flex:0 0 100%;border-radius:22px;padding:1.5rem 1.35rem;display:flex;flex-direction:column;gap:.9rem;justify-content:center;
+  background:var(--surface);border:1px solid var(--line);overflow-y:auto;min-width:0}
+.slide .kind{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.slide.biblia .kind{color:var(--olive)} .slide.reforma .kind,.slide.vida .kind{color:var(--rose)} .slide.frase .kind,.slide.pausa .kind{color:var(--flame)}
+.slide h2{font-size:1.75rem}
+.slide.frase{background:var(--flame-soft);border-color:transparent}
+.slide.frase blockquote{font-size:1.45rem;border:0;padding:0}
+.slide.pausa{background:var(--ink);color:var(--bg);border-color:transparent}
+.slide.pausa .btn{background:var(--flame);border-color:var(--flame);color:var(--ink)}
+.slide .ref{font-size:.82rem;font-weight:700}
+.slide .year{font-family:var(--display);font-size:3rem;line-height:1;color:var(--rose)}
+.new{font-size:.62rem;font-weight:800;letter-spacing:.1em;background:var(--olive);color:var(--bg);border-radius:99px;padding:.1rem .45rem;margin-left:.4rem;vertical-align:2px}
+.feed-top{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+
+/* lives & doctrine */
+details.life{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+details.life summary{list-style:none;cursor:pointer;padding:1rem 1.15rem;display:grid;grid-template-columns:2.8rem 1fr;gap:.85rem;align-items:center}
+details.life summary::-webkit-details-marker{display:none}
+.mono{width:2.8rem;height:2.8rem;border-radius:50%;background:var(--flame-soft);color:var(--flame);display:grid;place-items:center;font-family:var(--display);font-size:1.05rem}
+details.life summary small{display:block;color:var(--muted);font-size:.78rem}
+details.life summary strong{font-family:var(--display);font-weight:400;font-size:1.15rem}
+details.life .body{padding:0 1.15rem 1.2rem;display:flex;flex-direction:column;gap:.8rem}
+.lesson{background:var(--olive-soft);border-radius:12px;padding:.8rem 1rem;font-size:.95rem}
+.lesson b{color:var(--olive)}
+.reads{font-size:.88rem;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.cols>div{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:.7rem;font-size:.88rem;min-width:0}
+.cols h4{margin:0 0 .3rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--flame)}
+@media (max-width:560px){.cols{grid-template-columns:1fr}}
+
+/* yo */
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.3rem}
+.seg button{border:0;background:transparent;color:var(--muted);border-radius:10px;padding:.55rem .2rem;font:800 .78rem var(--ui);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.list{display:flex;flex-direction:column;gap:.55rem}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:.85rem 1rem;display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.item.ans{border-color:var(--olive);background:var(--olive-soft)}
+.item .meta{font-size:.75rem;color:var(--muted);font-weight:700}
+.item .txt{font-family:var(--read);overflow-wrap:anywhere;white-space:pre-wrap}
+.flash{min-height:13rem;display:flex;flex-direction:column;justify-content:center;gap:.8rem;text-align:center;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.4rem}
+.flash .ref{font-family:var(--display);font-size:1.8rem}
+.flash .text{font-family:var(--read);font-size:1.12rem;line-height:1.6}
+.box{display:flex;gap:.3rem;justify-content:center}
+.box i{width:1.6rem;height:.4rem;border-radius:9px;background:var(--line)}
+.box i.f{background:var(--olive)}
+.res{display:flex;gap:.6rem;align-items:flex-start}
+.res input[type=checkbox]{margin-top:.25rem;width:1.1rem;height:1.1rem;accent-color:var(--olive);flex:none}
+.res .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.res.done .t{text-decoration:line-through;color:var(--muted)}
+.x{border:0;background:transparent;color:var(--muted);font:700 1.1rem var(--ui);cursor:pointer;padding:0 .3rem}
+
+/* nav */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  padding:0 max(4px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(4px,env(safe-area-inset-left,0px))}
+nav.tabs ul{list-style:none;margin:0 auto;padding:0;max-width:34rem;display:grid;grid-template-columns:repeat(6,1fr);height:var(--nav-h)}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:100%;color:var(--muted);text-decoration:none;font-size:.66rem;font-weight:700}
+nav.tabs a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs a[aria-current="page"]{color:var(--flame)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<main class="app">
+
+<!-- ============ HOY ============ -->
+<section class="view" id="v-hoy" data-view="hoy">
+  <div class="hero">
+    <div class="toprow">
+      <svg class="lamp" viewBox="0 0 56 56" aria-hidden="true">
+        <path class="fl" d="M28 6 C33 14 34 20 28 30 C22 20 23 14 28 6 Z"/>
+        <path class="body" d="M8 36 C14 33 22 32 28 33 C36 32 44 33 50 30 C48 40 40 46 28 46 C18 46 11 42 8 36 Z"/>
+        <rect class="body" x="20" y="47" width="16" height="3" rx="1.5"/>
+      </svg>
+      <span class="sync" id="sync"><i></i>Guardado en este dispositivo</span>
+    </div>
+    <span class="eyebrow" id="greet">Buenos días, David</span>
+    <h1>Vuelve al primer amor</h1>
+    <blockquote>Recuerda, por tanto, de dónde has caído, y arrepiéntete, y haz las primeras obras.<cite>Apocalipsis 2:5 · RVR1960</cite></blockquote>
+  </div>
+
+  <div class="night" id="nightCard" hidden>
+    <span class="eyebrow" style="color:var(--flame)" id="nightTime">Es tarde</span>
+    <p class="read">Es tarde, David. Esta es la hora en que más cuesta. Antes de abrir otra app, cierra el día con Dios.</p>
+    <blockquote>En paz me acostaré, y asimismo dormiré; porque solo tú, Jehová, me haces vivir confiado.<cite>Salmo 4:8 · RVR1960</cite></blockquote>
+    <div class="row"><a class="btn" href="#orar">Orar 2 minutos y dormir</a></div>
+  </div>
+
+  <div class="msg" id="msgCard" hidden>
+    <span class="eyebrow" id="msgDate">Para ti, hoy</span>
+    <p class="read" id="msgText"></p>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">Lectura de hoy</span>
+    <p class="muted small">No tiene que ser mucho. Un capítulo leído con el corazón vale más que diez leídos por cumplir.</p>
+    <div class="links" id="todayLinks"></div>
+    <div class="row">
+      <button class="btn ghost" type="button" id="markRead" aria-pressed="false">Leí hoy</button>
+      <button class="btn ghost" type="button" id="markPray" aria-pressed="false">Oré hoy</button>
+      <a class="btn flame" href="#orar">Orar 5 minutos</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">Tus últimas 5 semanas</span>
+    <div class="cal" id="cal" aria-label="Calendario de lectura y oración"></div>
+    <div class="legend"><span><i style="background:var(--olive-soft);border-color:var(--olive)"></i>Leíste</span><span><i style="background:var(--flame-soft);border-color:var(--flame)"></i>Oraste</span><span><i style="background:var(--olive);border-color:var(--olive)"></i>Ambos</span></div>
+    <p class="muted small" id="calMsg"></p>
+  </div>
+
+  <div class="card" id="memoToday">
+    <span class="eyebrow">Versículos para repasar</span>
+    <p class="small" id="memoTodayTxt"></p>
+    <div class="row"><a class="btn ghost sm" href="#yo" data-seg="memo">Repasar ahora</a></div>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">Frase del día</span>
+    <blockquote id="qod"></blockquote>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">Tu Antiguo Testamento</span>
+    <p class="small">Marca los libros que ya leíste. Te sugiero cuál sigue.</p>
+    <div class="bar"><span id="otBar"></span></div>
+    <p class="muted small" id="otMsg"></p>
+    <div class="books" id="otBooks"></div>
+  </div>
+</section>
+
+<!-- ============ VOLVER ============ -->
+<section class="view" id="v-volver" data-view="volver" hidden>
+  <span class="eyebrow">Para cuando caes o te enfrías</span>
+  <h1>¿Cómo estás ahora?</h1>
+  <p class="muted">Sé honesto. Dios ya lo sabe, y aun así te espera. Elige lo que más se parece a lo que sientes.</p>
+  <div class="chips" id="moods"></div>
+  <div class="card rescue-panel" id="rescue"></div>
+</section>
+
+<!-- ============ ORAR ============ -->
+<section class="view" id="v-orar" data-view="orar" hidden>
+  <span class="eyebrow">Una oración guiada</span>
+  <h1>Orar sin quedarte en blanco</h1>
+  <p class="muted">Si hoy solo puedes un minuto, empieza ahí. La guía te va dando de qué hablar con Dios para que no te quedes sin palabras.</p>
+  <div class="card">
+    <span class="eyebrow">Forma de orar</span>
+    <div class="chips" id="methods"></div>
+    <p class="muted small" id="methodDesc"></p>
+    <span class="eyebrow" style="margin-top:.3rem">Tiempo</span>
+    <div class="chips" id="durations"></div>
+  </div>
+  <div class="card timer">
+    <svg class="ring" viewBox="0 0 210 210" aria-hidden="true">
+      <circle class="bg" cx="105" cy="105" r="92"/>
+      <circle class="fg" id="ringFg" cx="105" cy="105" r="92"/>
+      <text id="ringTxt" x="105" y="117" text-anchor="middle">5:00</text>
+    </svg>
+    <div class="prompt" id="prompt" aria-live="polite"></div>
+    <div class="row" style="justify-content:center">
+      <button class="btn flame" type="button" id="startPray">Empezar</button>
+      <button class="btn ghost" type="button" id="nextPrompt">Siguiente idea</button>
+    </div>
+  </div>
+  <div class="card">
+    <span class="eyebrow">Tus peticiones pendientes</span>
+    <div class="list" id="prayPending"></div>
+    <a class="small" href="#yo" data-seg="oracion">Ver toda tu lista de oración →</a>
+  </div>
+</section>
+
+<!-- ============ HISTORIAS ============ -->
+<section class="view" id="v-historias" data-view="historias" hidden>
+  <div class="feed-top">
+    <div><span class="eyebrow">En vez de reels</span><h2>Historias</h2></div>
+    <button class="btn ghost" type="button" id="shuffle">Mezclar</button>
+  </div>
+  <div class="chips" id="feedFilter"></div>
+  <div class="feed-wrap"><div class="feed" id="feed"></div></div>
+</section>
+
+<!-- ============ APRENDER ============ -->
+<section class="view" id="v-aprender" data-view="aprender" hidden>
+  <span class="eyebrow">Una nube de testigos · Hebreos 12:1</span>
+  <h1>Aprender</h1>
+  <div class="chips" id="learnTabs">
+    <button class="chip" type="button" id="lt-vidas" aria-pressed="true">Vidas</button>
+    <button class="chip" type="button" id="lt-doctrina" aria-pressed="false">Doctrina</button>
+  </div>
+  <div class="view" id="lvVidas">
+    <p class="muted">No eran superhéroes. Muchos lucharon con la depresión, la frialdad y el pecado igual que tú. Algunos eran calvinistas y otros no; su amor por Cristo nos enseña a todos.</p>
+    <div class="view" id="lives" style="gap:.7rem"></div>
+  </div>
+  <div class="view" id="lvDoctrina" hidden>
+    <p class="muted">Temas cortos, con sus textos clave. En los temas donde los creyentes difieren, verás las posturas presentadas con justicia, para que examines tú mismo.</p>
+    <div class="view" id="doctrine" style="gap:.7rem"></div>
+  </div>
+</section>
+
+<!-- ============ YO ============ -->
+<section class="view" id="v-yo" data-view="yo" hidden>
+  <span class="eyebrow">Solo para ti</span>
+  <h1>Mi espacio</h1>
+  <div class="seg" id="seg">
+    <button type="button" id="sg-oracion" aria-pressed="true">Oración</button>
+    <button type="button" id="sg-memo" aria-pressed="false">Memorizar</button>
+    <button type="button" id="sg-res" aria-pressed="false">Resolver</button>
+    <button type="button" id="sg-diario" aria-pressed="false">Diario</button>
+  </div>
+
+  <div class="view" id="pOracion">
+    <div class="card">
+      <span class="eyebrow">Nueva petición</span>
+      <label for="prayIn" class="muted small">Escribe por qué o por quién quieres orar. Cuando Dios responda, márcalo: con el tiempo verás su fidelidad, como lo veía Müller.</label>
+      <input type="text" id="prayIn" placeholder="Por ejemplo: que Aura conozca a Cristo" maxlength="300">
+      <div class="row"><button class="btn flame" type="button" id="prayAdd">Agregar</button></div>
+    </div>
+    <div class="list" id="prayList"></div>
+  </div>
+
+  <div class="view" id="pMemo" hidden>
+    <p class="muted small" id="memoInfo"></p>
+    <div class="flash" id="flash" role="button" tabindex="0" aria-live="polite"></div>
+    <div class="row" style="justify-content:center" id="memoBtns">
+      <button class="btn ghost" type="button" id="memoAgain">Repasar otra vez</button>
+      <button class="btn flame" type="button" id="memoOk">Me lo sé</button>
+    </div>
+    <details class="life"><summary><span class="mono" aria-hidden="true">+</span><span><strong>Todos los versículos</strong><small>Tu avance en cada uno</small></span></summary><div class="body"><div class="list" id="memoAll"></div></div></details>
+  </div>
+
+  <div class="view" id="pRes" hidden>
+    <div class="card">
+      <span class="eyebrow" id="resTitle">Resoluciones</span>
+      <p class="muted small">Edwards escribió las suyas a los 19 años y las releía cada semana. Escribe hasta 5 para este mes. Son una dirección, no una ley.</p>
+      <div class="list" id="resList"></div>
+      <input type="text" id="resIn" placeholder="Resuelvo…" maxlength="200">
+      <div class="row"><button class="btn flame" type="button" id="resAdd">Agregar resolución</button></div>
+    </div>
+  </div>
+
+  <div class="view" id="pDiario" hidden>
+    <div class="card">
+      <span class="eyebrow">Lo que Dios me habló hoy</span>
+      <label for="diaryRef" class="muted small">¿Qué leíste?</label>
+      <input type="text" id="diaryRef" placeholder="Por ejemplo: Salmo 42" maxlength="80">
+      <label for="diaryIn" class="muted small" id="diaryPrompt"></label>
+      <textarea id="diaryIn" maxlength="5000"></textarea>
+      <div class="row"><button class="btn flame" type="button" id="diaryAdd">Guardar</button><span class="small muted" id="diaryMsg"></span></div>
+    </div>
+    <div class="list" id="diaryList"></div>
+  </div>
+</section>
+</main>
+
+<nav class="tabs" aria-label="Secciones">
+  <ul>
+    <li><a href="#hoy" data-go="hoy"><svg viewBox="0 0 24 24"><path d="M12 3c2.5 3.5 3 6 0 10-3-4-2.5-6.5 0-10z"/><path d="M5 16c3-1.2 5-1.4 7-1.2 2.4-.2 4.6 0 7-1.3-.6 3.6-3.4 5.5-7 5.5s-6.2-1.3-7-3z"/></svg>Hoy</a></li>
+    <li><a href="#volver" data-go="volver"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Volver</a></li>
+    <li><a href="#orar" data-go="orar"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Orar</a></li>
+    <li><a href="#historias" data-go="historias"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M10 9l4 3-4 3z"/></svg>Historias</a></li>
+    <li><a href="#aprender" data-go="aprender"><svg viewBox="0 0 24 24"><path d="M4 19V6a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2"/><path d="M9 8h6"/></svg>Aprender</a></li>
+    <li><a href="#yo" data-go="yo"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Yo</a></li>
+  </ul>
+</nav>
+
+<script>
+(function(){
+const bg = r => "https://www.biblegateway.com/passage/?search=" + encodeURIComponent(r) + "&version=RVR1960";
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const V = (t, r) => `<blockquote>${esc(t)}<cite><a href="${bg(r)}" target="_blank" rel="noopener">${esc(r)} · RVR1960</a></cite></blockquote>`;
+const Q = (t, a) => `<blockquote>${esc(t)}<cite>${esc(a)}</cite></blockquote>`;
+const LS = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+const now = new Date();
+const dayKey = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const today = dayKey(now);
+const monthKey = today.slice(0,7);
+const dayNum = Math.floor(now.getTime()/864e5);
+const fmtDate = k => { try{ const [y,m,d]=k.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("es",{day:"numeric",month:"long",year:"numeric"}); }catch(e){ return k; } };
+const addDays = (k,n) => { const [y,m,d]=k.split("-").map(Number); const x=new Date(y,m-1,d); x.setDate(x.getDate()+n); return dayKey(x); };
+
+/* ===================== CONTENIDO BASE ===================== */
+const QUOTES = [
+  ["¿Te has dado cuenta de que gran parte de tu infelicidad se debe a que te escuchas a ti mismo en lugar de hablarte a ti mismo?","Martyn Lloyd-Jones · Depresión espiritual"],
+  ["Por cada mirada que des a ti mismo, da diez miradas a Cristo.","Robert Murray M'Cheyne"],
+  ["Hasta que el pecado no sea amargo, Cristo no será dulce.","Thomas Watson · La doctrina del arrepentimiento"],
+  ["Mata al pecado, o él te estará matando a ti.","John Owen · La mortificación del pecado"],
+  ["La oración es el nervio delgado que mueve los músculos de la omnipotencia.","Charles H. Spurgeon"],
+  ["Nadie sabe lo malo que es hasta que ha intentado con todas sus fuerzas ser bueno.","C. S. Lewis · Mero cristianismo"],
+  ["Creo en el cristianismo como creo que el sol ha salido: no solo porque lo veo, sino porque por él veo todo lo demás.","C. S. Lewis"],
+  ["Nos hiciste para ti, y nuestro corazón está inquieto hasta que descanse en ti.","Agustín de Hipona · Confesiones"],
+  ["Resuelvo nunca perder un momento de tiempo, sino aprovecharlo de la manera más provechosa posible.","Jonathan Edwards · Resolución 5"],
+  ["La oración es el aliento mismo del verdadero cristianismo.","J. C. Ryle · Un llamado a la oración"],
+  ["No hay pozo tan profundo que el amor de Dios no sea más profundo todavía.","Betsie ten Boom, en Ravensbrück"],
+  ["Lo primero y principal cada mañana es tener mi alma feliz en el Señor.","George Müller"],
+  ["Sentí mi corazón extrañamente cálido. Sentí que confiaba en Cristo, solo en Cristo, para mi salvación.","John Wesley · Diario, 24 de mayo de 1738"],
+  ["No es necio el que da lo que no puede retener para ganar lo que no puede perder.","Jim Elliot · Diario"],
+  ["Ochenta y seis años le he servido, y ningún mal me ha hecho. ¿Cómo puedo blasfemar a mi Rey que me salvó?","Policarpo de Esmirna"]
+];
+
+const MOODS = {
+  frio:{ k:"Frío, sin ganas", t:"Dios no se fue; tú te alejaste, y Él te está llamando de vuelta",
+    b:"La frialdad no se arregla esperando a sentir ganas. Jesús le dijo a Éfeso tres cosas: recuerda, arrepiéntete y haz las primeras obras. Las emociones suelen llegar después de la obediencia, no antes. Y Dios es paciente contigo: quiere que vuelvas.",
+    v:[["Pero tengo contra ti, que has dejado tu primer amor. Recuerda, por tanto, de dónde has caído, y arrepiéntete, y haz las primeras obras;","Apocalipsis 2:4-5"],["Vuélveme el gozo de tu salvación, y espíritu noble me sustente.","Salmo 51:12"],["El Señor no retarda su promesa, según algunos la tienen por tardanza, sino que es paciente para con nosotros, no queriendo que ninguno perezca, sino que todos procedan al arrepentimiento.","2 Pedro 3:9"]],
+    q:QUOTES[0], s:"Lee el Salmo 42 en voz alta. Fíjate cómo el salmista se habla a sí mismo: «¿Por qué te abates, oh alma mía?». Luego dile a Dios una sola frase sincera." },
+  lujuria:{ k:"Caí en lujuria", t:"No te escondas: corre hacia Cristo, no lejos de Él",
+    b:"Después de caer, el enemigo te dice que no puedes acercarte a Dios. Es mentira. La sangre de Cristo es suficiente también para esto. Confiesa sin excusas y recibe el perdón. Y luego haz guerra de verdad: huye, pon distancia y quita los accesos. No negocies con el pecado.",
+    v:[["Si confesamos nuestros pecados, él es fiel y justo para perdonar nuestros pecados, y limpiarnos de toda maldad.","1 Juan 1:9"],["Huye también de las pasiones juveniles, y sigue la justicia, la fe, el amor y la paz, con los que de corazón limpio invocan al Señor.","2 Timoteo 2:22"],["No os ha sobrevenido ninguna tentación que no sea humana; pero fiel es Dios, que no os dejará ser tentados más de lo que podéis resistir, sino que dará también juntamente con la tentación la salida, para que podáis soportar.","1 Corintios 10:13"]],
+    q:QUOTES[3], s:"Ahora mismo: confiésalo con palabras concretas. Después elige una salida real: deja el celular en otro cuarto por la noche, pon un filtro o díselo a un hermano de confianza. Lee Génesis 39: José huyó. Y lee la historia de Agustín en «Aprender»." },
+  ira:{ k:"Me enojé", t:"La ira del hombre no obra la justicia de Dios",
+    b:"Tu enojo casi siempre revela algo que amas demasiado: tu comodidad, tu imagen o tener la razón. No lo justifiques. Llévalo a Dios, y si heriste a alguien, ve a pedir perdón antes de que termine el día.",
+    v:[["Por esto, mis amados hermanos, todo hombre sea pronto para oír, tardo para hablar, tardo para airarse; porque la ira del hombre no obra la justicia de Dios.","Santiago 1:19-20"],["Airaos, pero no pequéis; no se ponga el sol sobre vuestro enojo,","Efesios 4:26"],["La blanda respuesta quita la ira; mas la palabra áspera hace subir el furor.","Proverbios 15:1"]],
+    q:QUOTES[1], s:"Pregúntate: ¿qué quería yo que no obtuve? Escríbelo. Después manda un mensaje corto de perdón a quien heriste. Sin «pero»." },
+  mentira:{ k:"Mentí", t:"Cristo es la verdad; vivir en Él es vivir en la luz",
+    b:"La mentira nace del miedo: a quedar mal, a perder algo o a las consecuencias. En Cristo ya no tienes que proteger tu imagen, porque tu valor está seguro en Él. Confiesa y, si puedes, corrige la mentira con quien corresponda.",
+    v:[["Por lo cual, desechando la mentira, hablad verdad cada uno con su prójimo; porque somos miembros los unos de los otros.","Efesios 4:25"],["Los labios mentirosos son abominación a Jehová; pero los que hacen verdad son su contentamiento.","Proverbios 12:22"]],
+    q:QUOTES[2], s:"Identifica qué temías al mentir. Ora: «Señor, mi seguridad está en ti». Si es posible, aclara la verdad hoy." },
+  ego:{ k:"Fui egoísta", t:"El Hijo del Hombre no vino para ser servido",
+    b:"El egoísmo se cura mirando a Cristo, que se vació a sí mismo. No se cura solo con fuerza de voluntad. Cuanto más contemples su humildad, menos espacio tendrás para ti mismo en el centro.",
+    v:[["Nada hagáis por contienda o por vanagloria; antes bien con humildad, estimando cada uno a los demás como superiores a él mismo; no mirando cada uno por lo suyo propio, sino cada cual también por lo de los otros.","Filipenses 2:3-4"],["Porque el Hijo del Hombre no vino para ser servido, sino para servir, y para dar su vida en rescate por muchos.","Marcos 10:45"]],
+    q:QUOTES[5], s:"Lee Filipenses 2:5-11 despacio. Luego haz hoy un servicio escondido por alguien, sin que nadie lo sepa." },
+  orar:{ k:"No puedo orar", t:"El Espíritu te ayuda en tu debilidad",
+    b:"No necesitas oraciones largas ni bonitas. Dios no mide tu oración por minutos. El problema suele ser que intentamos orar en el vacío. Ora con la Biblia abierta y deja que el texto te dé las palabras, como hacía Müller.",
+    v:[["Y de igual manera el Espíritu nos ayuda en nuestra debilidad; pues qué hemos de pedir como conviene, no lo sabemos, pero el Espíritu mismo intercede por nosotros con gemidos indecibles.","Romanos 8:26"],["Esperad en él en todo tiempo, oh pueblos; derramad delante de él vuestro corazón; Dios es nuestro refugio.","Salmo 62:8"],["Acerquémonos, pues, confiadamente al trono de la gracia, para alcanzar misericordia y hallar gracia para el oportuno socorro.","Hebreos 4:16"]],
+    q:QUOTES[11], s:"Ve a «Orar», elige «Orar un salmo» y 2 minutos. Lee una línea y conviértela en tu oración. Repite con la siguiente." },
+  pantalla:{ k:"Perdí horas en el celular", t:"Aprovecha bien el tiempo, porque los días son malos",
+    b:"El scroll infinito está diseñado para que nunca te sientas lleno. Cristo sí sacia. No te castigues, pero tampoco te mientas: lo que alimentas crece. Cambia un hábito por otro, no por fuerza de voluntad.",
+    v:[["Aparta mis ojos, que no vean la vanidad; avívame en tu camino.","Salmo 119:37"],["Mirad, pues, con diligencia cómo andéis, no como necios sino como sabios, aprovechando bien el tiempo, porque los días son malos.","Efesios 5:15-16"]],
+    q:QUOTES[8], s:"Pon este sitio en la pantalla de inicio donde estaba TikTok o DLS. Cuando sientas el impulso, abre «Historias» en su lugar." },
+  culpa:{ k:"Me siento condenado", t:"Ninguna condenación hay para los que están en Cristo",
+    b:"La convicción del Espíritu te lleva a Cristo. La condenación te aleja de Él. Si después de confesar sigues sintiendo que Dios te rechaza, eso no viene de Dios. Tu abogado es Jesucristo el justo.",
+    v:[["Ahora, pues, ninguna condenación hay para los que están en Cristo Jesús…","Romanos 8:1"],["Hijitos míos, estas cosas os escribo para que no pequéis; y si alguno hubiere pecado, abogado tenemos para con el Padre, a Jesucristo el justo.","1 Juan 2:1"],["Porque siete veces cae el justo, y vuelve a levantarse;","Proverbios 24:16"]],
+    q:QUOTES[1], s:"Lee Juan 21:15-19. Pedro negó a Jesús tres veces, y Jesús lo restauró tres veces. Él no ha terminado contigo." }
+};
+
+const METHODS = {
+  acas:{ k:"ACAS", d:"Adoración, Confesión, Acción de gracias y Súplica. Cuatro movimientos para no quedarte en blanco.",
+    p:[["Adoración","Dile a Dios quién es Él. Usa un atributo: santo, fiel, paciente, bueno. No pidas nada todavía."],["Adoración","Recuerda algo que hizo en la Biblia que te asombre. Alábalo por eso."],["Confesión","Nombra tu pecado sin suavizarlo: egoísmo, lujuria, ira, mentira. Pide perdón por cosas concretas."],["Confesión","Recibe el perdón. Dile: «Gracias porque la sangre de Cristo es suficiente para esto»."],["Acción de gracias","Agradece tres cosas pequeñas de hoy. Y una grande: tu salvación."],["Súplica","Ora por tu familia, por nombre."],["Súplica","Ora por las peticiones de tu lista (las ves abajo)."],["Súplica","Pide por ti: «Señor, devuélveme el hambre por tu Palabra»."]] },
+  salmo:{ k:"Orar un salmo", d:"Abre un salmo y conviértelo en oración, línea por línea. Así nunca se te acaban las palabras.",
+    p:[["Salmo del día","Abre el salmo del día (en «Hoy»). Lee el primer versículo."],["Línea por línea","¿Qué te hace pensar ese versículo? Díselo a Dios con tus palabras."],["Sigue","Pasa al siguiente versículo. Si no entiendes uno, sáltalo sin culpa."],["Personaliza","Cambia «nosotros» por «yo» y ora el texto como si fuera tuyo."],["Escucha","Quédate unos segundos en silencio con la frase que más te tocó."],["Termina","Agradece por la Palabra que te dio palabras."]] },
+  padre:{ k:"Padre Nuestro", d:"Jesús nos dio un modelo. Detente en cada frase y amplíala con tu vida.",
+    p:[["Padre nuestro que estás en los cielos","Eres hijo, no esclavo. Háblale como a un Padre que te ama."],["Santificado sea tu nombre","Pide que su nombre sea honrado en tu trabajo, en tus redes y en tus pensamientos."],["Venga tu reino, hágase tu voluntad","Entrégale tus planes: tu relación, tu futuro, tus decisiones."],["El pan nuestro de cada día","Pide lo que necesitas hoy, sin vergüenza."],["Perdónanos… como nosotros perdonamos","Confiesa. ¿A quién necesitas perdonar tú?"],["No nos metas en tentación","Nombra tus tentaciones y pide salida. Planea cómo vas a huir."],["Líbranos del mal","Ora por protección para ti y para los que amas."],["Porque tuyo es el reino","Termina adorando. Él reina, aunque tú te sientas débil."]] }
+};
+
+const LIVES = [
+  { n:"Charles H. Spurgeon", y:"1834–1892", m:"CS", tag:"El príncipe de los predicadores",
+    b:"Se convirtió a los 15 años, una mañana de nieve de 1850, en una pequeña capilla metodista de Colchester. El predicador no llegó y un laico sencillo leyó Isaías 45:22: «Mirad a mí, y sed salvos». A los 19 era pastor en Londres, y llegó a predicar a miles cada domingo en el Tabernáculo Metropolitano. En 1856, durante un culto, alguien gritó «¡fuego!» y en la estampida murieron siete personas. Spurgeon cayó en una depresión que lo acompañó toda la vida.",
+    l:"El mayor predicador de su siglo luchó con la oscuridad del alma y no dejó de mirar a Cristo. Tu frialdad no te descalifica.", q:QUOTES[4], r:"Lee: «Lecturas matutinas y vespertinas» (Morning and Evening), una lectura corta para cada mañana y cada noche." },
+  { n:"Agustín de Hipona", y:"354–430", m:"AH", tag:"«Toma y lee»",
+    b:"Brillante profesor de retórica, vivió años esclavo de la lujuria. Oraba: «Dame castidad, pero todavía no». Su madre, Mónica, oró por él durante años. En el año 386, en un jardín de Milán, llorando, oyó a un niño cantar «toma y lee». Abrió la Biblia en Romanos 13:13-14: «…no en lujurias y lascivias… sino vestíos del Señor Jesucristo, y no proveáis para los deseos de la carne». Ese día fue libre.",
+    l:"Si alguien entendió la lucha con la lujuria, fue Agustín. La salida no fue solo fuerza de voluntad: fue vestirse de Cristo y no proveer para la carne. Quita lo que alimenta la tentación.", q:QUOTES[7], r:"Lee: «Confesiones», sobre todo el libro VIII." },
+  { n:"John Wesley", y:"1703–1791", m:"JW", tag:"El corazón extrañamente cálido",
+    b:"Era pastor, misionero y muy disciplinado, pero sin paz. En 1738, en una reunión en la calle Aldersgate de Londres, alguien leía el prefacio de Lutero a la carta a los Romanos. Wesley escribió que sintió su corazón «extrañamente cálido» y que confió solo en Cristo. Después recorrió Inglaterra a caballo, predicando durante más de 50 años.",
+    l:"Wesley tenía religión, disciplina y doctrina, pero su corazón estaba frío hasta que se encontró con la gracia. Lo que calienta el corazón no es más esfuerzo, sino volver a ver a Cristo.", q:QUOTES[12], r:"Lee: su diario, en la entrada del 24 de mayo de 1738." },
+  { n:"C. S. Lewis", y:"1898–1963", m:"CL", tag:"El ateo que no pudo huir",
+    b:"Profesor en Oxford y ateo convencido desde la adolescencia. En 1929 se arrodilló y admitió que Dios era Dios; se describió como «el converso más abatido y reacio de toda Inglaterra». En 1931, tras una larga conversación nocturna con Tolkien sobre el mito y la verdad, creyó en Cristo. Durante la Segunda Guerra Mundial dio charlas por radio que se convirtieron en «Mero cristianismo».",
+    l:"Lewis entendía la tentación desde adentro. Si luchas con el pecado, «Cartas del diablo a su sobrino» te va a desnudar el corazón.", q:QUOTES[5], r:"Lee: «Cartas del diablo a su sobrino» y «Mero cristianismo»." },
+  { n:"Matthew Henry", y:"1662–1714", m:"MH", tag:"El comentarista que enseñó a orar",
+    b:"Hijo de Philip Henry, un pastor expulsado en 1662 por negarse a someterse a la Iglesia oficial. Fue pastor en Chester durante 25 años. En 1704 comenzó su famoso comentario de toda la Biblia; murió en 1714 después de terminar hasta Hechos, y otros pastores lo completaron con sus notas. Se cuenta que, cuando lo asaltaron, escribió en su diario que daba gracias porque nunca antes lo habían robado, porque no le quitaron la vida, porque lo que se llevaron era poco, y porque él había sido el robado y no el ladrón.",
+    l:"Henry escribió «Un método para la oración» (1710), lleno de frases bíblicas para orar. Es justo lo que necesitas cuando no sabes qué decir.", q:["La gratitud encuentra motivos incluso en el peor día.","La lección de su diario"], r:"Lee: «Un método para la oración» y su comentario de los Salmos." },
+  { n:"J. C. Ryle", y:"1816–1900", m:"JR", tag:"El obispo de la santidad",
+    b:"Atleta y estudiante brillante en Oxford. Se convirtió alrededor de 1838 al oír leer Efesios 2:8 en un culto. En 1841 el banco de su familia quebró y lo perdió todo, incluida su herencia. Esa ruina lo llevó al ministerio. En 1880 fue el primer obispo de Liverpool.",
+    l:"Su libro «Santidad» confronta el cristianismo cómodo sin caer en el legalismo. Ryle te diría: la santidad no es opcional, pero nace de la unión con Cristo.", q:QUOTES[9], r:"Lee: «Santidad» y «Un llamado a la oración» (muy corto)." },
+  { n:"Thomas Watson", y:"c.1620–1686", m:"TW", tag:"El puritano de las frases",
+    b:"Pastor en Londres durante 16 años. En 1662, con la Gran Expulsión, unos dos mil pastores perdieron sus púlpitos por negarse a firmar el Acta de Uniformidad, y él fue uno de ellos. Siguió predicando en casas, a escondidas. Sus libros están llenos de frases que se quedan grabadas.",
+    l:"Watson enseñaba que el arrepentimiento verdadero no es solo sentir pena, sino volverse. Su libro sobre el arrepentimiento es corto y quema.", q:QUOTES[2], r:"Lee: «La doctrina del arrepentimiento» y «Todas las cosas para bien»." },
+  { n:"John Bunyan", y:"1628–1688", m:"JB", tag:"El calderero en la cárcel",
+    b:"Calderero sin estudios, conocido en su juventud por maldecir. Después de su conversión vivió años de angustia y dudas terribles, que contó en «Gracia abundante para el mayor de los pecadores». Por predicar sin licencia pasó unos 12 años en la cárcel de Bedford. Allí empezó «El progreso del peregrino», uno de los libros más leídos de la historia.",
+    l:"Bunyan conoció la duda y la condenación desde adentro, y Dios usó su cárcel para darle al mundo una obra maestra. Tus luchas no son el final de tu historia.", q:["Al pie de la cruz, la carga se soltó de sus hombros y rodó hasta el sepulcro.","El progreso del peregrino (resumen)"], r:"Lee: «El progreso del peregrino» y «Gracia abundante»." },
+  { n:"Martyn Lloyd-Jones", y:"1899–1981", m:"ML", tag:"El médico de almas",
+    b:"Galés y médico brillante, asistente del médico del rey en el hospital St. Bartholomew's de Londres. En 1927 dejó una carrera prometedora para pastorear una pequeña iglesia obrera en Gales. Después predicó durante 30 años en la Capilla de Westminster, en Londres.",
+    l:"Escribió «Depresión espiritual» precisamente para cristianos como tú hoy: fríos, sin gozo, atrapados en sí mismos. Su gran consejo: deja de escucharte y empieza a predicarte el evangelio.", q:QUOTES[0], r:"Lee: «Depresión espiritual». Si solo lees un libro este mes, que sea este." },
+  { n:"George Whitefield", y:"1714–1770", m:"GW", tag:"La voz del Gran Despertar",
+    b:"En Oxford fue parte del «Club Santo» con los hermanos Wesley. Se convirtió leyendo «La vida de Dios en el alma del hombre», de Henry Scougal. Cuando le cerraron las iglesias, predicó al aire libre. Se cuenta que las lágrimas de los mineros de Kingswood dejaban surcos blancos en sus caras tiznadas. Cruzó el Atlántico 13 veces, y Benjamin Franklin calculó que su voz podía oírse por 30.000 personas.",
+    l:"Whitefield era calvinista y John Wesley arminiano; discutieron fuerte. Aun así, Wesley predicó en el funeral de Whitefield. Se puede tener convicción doctrinal y amar al hermano que piensa distinto.", q:["Se puede discrepar en doctrina y seguir amándose en Cristo.","La lección de su amistad con Wesley"], r:"Lee: sus diarios, o la biografía de Arnold Dallimore." },
+  { n:"Martín Lutero", y:"1483–1546", m:"ML", tag:"El monje que descubrió la gracia",
+    b:"Monje atormentado: se confesaba durante horas y nunca tenía paz. Estudiando Romanos 1:17 entendió que «el justo por la fe vivirá»: la justicia de Dios es un regalo, no una meta. En 1517 publicó sus 95 tesis. Escondido en el castillo de Wartburg tradujo el Nuevo Testamento al alemán en unas once semanas.",
+    l:"En 1535 su barbero, Peter, le preguntó cómo orar. Lutero le escribió «Una manera sencilla de orar»: tomar el Padre Nuestro, los mandamientos o el Credo y orarlos frase por frase.", q:["Cuanto menos oro, más difícil se me hace; cuanto más oro, mejor me va.","Atribuida a Martín Lutero"], r:"Lee: «Una manera sencilla de orar» (muy corto)." },
+  { n:"William Tyndale", y:"c.1494–1536", m:"WT", tag:"La Biblia para el muchacho del arado",
+    b:"Le dijo a un clérigo que, si Dios le daba vida, haría que un muchacho que ara el campo conociera las Escrituras mejor que él. Como estaba prohibido traducir la Biblia al inglés, huyó a Alemania, donde imprimió el Nuevo Testamento en 1526; las copias entraban a Inglaterra escondidas. Fue traicionado, estrangulado y quemado en 1536. Sus últimas palabras: «Señor, abre los ojos del rey de Inglaterra».",
+    l:"Tienes en tu celular lo que a otros les costó la vida. Tu Biblia sin abrir fue pagada con sangre.", q:["Señor, abre los ojos del rey de Inglaterra.","Últimas palabras de Tyndale"], r:"Lee: una biografía de Tyndale, o la historia de la Reforma inglesa." },
+  { n:"Policarpo de Esmirna", y:"c.69–155", m:"PE", tag:"Ochenta y seis años fiel",
+    b:"Obispo de Esmirna y, según la tradición, discípulo del apóstol Juan. Ya anciano, fue arrestado y le pidieron que maldijera a Cristo para salvar su vida. Su respuesta quedó registrada en el relato de su martirio, uno de los textos cristianos más antiguos fuera de la Biblia. Fue quemado en la hoguera.",
+    l:"Policarpo no tuvo una fe de un día emocionante, sino de 86 años de fidelidad diaria. Esa es la meta: ser fiel mañana, y pasado mañana.", q:QUOTES[14], r:"Lee: «El martirio de Policarpo» (muy corto)." },
+  { n:"George Müller", y:"1805–1898", m:"GM", tag:"El hombre que solo le pidió a Dios",
+    b:"De joven fue mentiroso, apostador y ladrón, y hasta estuvo en la cárcel. Se convirtió en 1825 al ver a un hombre arrodillado en una reunión de oración. En Bristol cuidó a más de 10.000 huérfanos sin pedir jamás dinero a nadie, solo a Dios. Se cuenta que una mañana no había comida, oraron dando gracias, y llamaron a la puerta un panadero con pan y un lechero cuyo carro se había averiado.",
+    l:"Müller descubrió que no podía orar bien si empezaba orando en frío. Por eso cambió el orden: primero leía la Biblia meditando, y la meditación se convertía sola en oración. Es exactamente tu remedio.", q:QUOTES[11], r:"Lee: «Una narración de los tratos del Señor» o su biografía de Roger Steer." },
+  { n:"Hudson Taylor", y:"1832–1905", m:"HT", tag:"La vida intercambiada",
+    b:"Misionero inglés en China. Fundó la Misión al Interior de la China en 1865 y adoptó la ropa y las costumbres chinas, algo escandaloso para su época. En 1869, agotado por su falta de santidad y de comunión con Dios, una carta de su amigo John McCarthy le hizo ver que no tenía que esforzarse por permanecer en Cristo, sino descansar en que ya estaba unido a Él (Juan 15).",
+    l:"Taylor estaba frustrado con su vida espiritual, igual que tú. Su cambio no vino de más esfuerzo, sino de descansar en Cristo, la vid.", q:["No luchar, sino descansar en Él: esa fue la lección.","La lección de la carta de 1869"], r:"Lee: «El secreto espiritual de Hudson Taylor»." },
+  { n:"David Brainerd", y:"1718–1747", m:"DB", tag:"Oraciones en el bosque",
+    b:"Misionero entre los pueblos nativos de Nueva Inglaterra. Enfermo de tuberculosis y a menudo deprimido, pasaba horas orando en el bosque, a veces en la nieve. Murió a los 29 años en casa de Jonathan Edwards, quien publicó su diario. Ese diario inspiró a generaciones de misioneros, como William Carey y Jim Elliot.",
+    l:"El diario de Brainerd está lleno de días fríos y oscuros, y aun así siguió orando. Los días áridos no significan que Dios no esté obrando.", q:["Su vida fue corta, pero su oración sigue dando fruto.","La lección de su diario"], r:"Lee: «La vida y el diario de David Brainerd», editado por Edwards." },
+  { n:"Corrie ten Boom", y:"1892–1983", m:"CB", tag:"Perdonar en Ravensbrück",
+    b:"Relojera holandesa. Su familia escondió judíos en su casa de Haarlem durante la ocupación nazi. En 1944 los arrestaron, y Corrie y su hermana Betsie fueron al campo de concentración de Ravensbrück, donde Betsie murió. En 1947, después de predicar en Múnich, se le acercó uno de sus antiguos guardias para pedirle perdón. Corrie le dio la mano pidiendo a Dios un amor que ella no tenía.",
+    l:"Cuando no puedas amar o perdonar, pide prestado el amor de Dios. Él da lo que manda.", q:QUOTES[10], r:"Lee: «El refugio secreto» (The Hiding Place)." },
+  { n:"Elisabeth Elliot", y:"1926–2015", m:"EE", tag:"Hacer lo siguiente",
+    b:"En 1956, su esposo Jim y otros cuatro misioneros murieron a manos de los waorani en la selva de Ecuador. Elisabeth se quedó sola con su hija pequeña. Dos años después fue a vivir con ese mismo pueblo, y varios de los que mataron a su esposo llegaron a creer en Cristo.",
+    l:"Su consejo para los días oscuros era sencillo: «haz lo siguiente». No tienes que resolver toda tu vida espiritual hoy; solo lee el capítulo siguiente y ora la oración siguiente.", q:QUOTES[13], r:"Lee: «Portales de esplendor» y «Pasión y pureza» (sobre la pureza sexual)." },
+  { n:"Susanna Wesley", y:"1669–1742", m:"SW", tag:"La madre del delantal",
+    b:"Tuvo 19 hijos (solo unos diez sobrevivieron), entre ellos John y Charles Wesley. Vivía en una casa ruidosa, con pobreza y un esposo difícil. Como no tenía un lugar para estar a solas, se cubría la cabeza con su delantal para orar, y sus hijos sabían que en ese momento no debían interrumpirla.",
+    l:"No necesitas el lugar ni el momento perfectos. Necesitas un delantal: algo que te separe unos minutos del ruido, aunque sea apagar el celular.", q:["Que no haya un lugar perfecto no es excusa para no orar.","La lección de Susanna"], r:"Lee: biografías breves de los Wesley." },
+  { n:"Amy Carmichael", y:"1867–1951", m:"AC", tag:"55 años en la India",
+    b:"Misionera irlandesa. Trabajó 55 años en Dohnavur, en la India, sin volver nunca a casa, rescatando a niños entregados a los templos. Los últimos 20 años los pasó en cama tras un accidente, y desde allí escribió muchos de sus libros más profundos.",
+    l:"Incluso postrada, su vida siguió dando fruto. La fidelidad en lo pequeño importa más que los momentos grandes.", q:["Siempre podemos dar sin amar, pero nunca podemos amar sin dar.","Atribuida a Amy Carmichael"], r:"Lee: «Si» (If), un librito breve sobre el amor del Calvario." },
+  { n:"Jonathan Edwards", y:"1703–1758", m:"JE", tag:"Las 70 resoluciones",
+    b:"Con apenas 19 y 20 años escribió 70 resoluciones para su vida y las releía cada semana. Fue una figura central del Gran Despertar en Nueva Inglaterra, y uno de los pensadores más profundos que ha dado América.",
+    l:"Las resoluciones de Edwards no eran legalismo; eran dirección. Escribe tú también tus resoluciones en «Yo».", q:QUOTES[8], r:"Lee: «Las resoluciones» y «Los afectos religiosos»." }
+];
+
+const BIBLE = [
+  ["Elías bajo el enebro","1 Reyes 19","Después de su mayor victoria en el Carmelo, Elías huyó y pidió morir. Dios no lo regañó: lo dejó dormir, le dio de comer dos veces y luego le habló en un silbo apacible. A veces lo más espiritual que puedes hacer es descansar, comer bien y volver a escuchar."],
+  ["Pedro restaurado","Juan 21","Pedro negó a Jesús tres veces junto a una fogata. Después de la resurrección, Jesús preparó otra fogata, le dio de desayunar y le preguntó tres veces: «¿Me amas?». No le preguntó si iba a fallar otra vez. Le preguntó por su amor."],
+  ["José huye","Génesis 39","Día tras día lo tentaron, y José no se quedó a discutir con la tentación: dejó su ropa y huyó. A veces la mayor valentía es salir corriendo. «¿Cómo, pues, haría yo este grande mal, y pecaría contra Dios?»"],
+  ["David y Natán","2 Samuel 12 · Salmo 51","El hombre conforme al corazón de Dios cometió adulterio y asesinato, y lo ocultó durante meses. Cuando el profeta Natán lo confrontó, David no se justificó: «Pequé contra Jehová». De ese quebranto nació el Salmo 51."],
+  ["El hijo que volvió","Lucas 15","El hijo ensayó un discurso para ser aceptado como jornalero. El padre ni lo dejó terminar: corrió, lo abrazó, lo vistió y le hizo fiesta. Tu Padre corre hacia ti cuando decides volver."],
+  ["Daniel abre la ventana","Daniel 6","Daniel sabía que orar podía costarle la vida, y aun así abrió sus ventanas y oró tres veces al día, «como lo solía hacer antes». La clave está en esa frase: tenía un hábito, no solo una emoción."],
+  ["Jacob lucha de noche","Génesis 32","Solo y con miedo, Jacob luchó con Dios hasta el amanecer y le dijo: «No te dejaré, si no me bendices». Salió cojeando, pero bendecido. A veces orar es luchar, y está bien."],
+  ["La oración de Nehemías","Nehemías 2:4","Delante del rey, con segundos para responder, Nehemías «oró al Dios de los cielos» y luego habló. Las oraciones de un segundo también cuentan, y se pueden hacer en medio del día."],
+  ["Ana derrama su alma","1 Samuel 1","Ana oró con tanta angustia que el sacerdote pensó que estaba borracha. Ella respondió: «He derramado mi alma delante de Jehová». A Dios no le importa que tu oración sea bonita; le importa que sea sincera."],
+  ["Jonás y la segunda vez","Jonás 3:1","Jonás huyó, se hundió y fue tragado. Y sin embargo: «Vino palabra de Jehová por segunda vez a Jonás». El Dios de las segundas oportunidades también tiene una tercera y una cuarta para ti."],
+  ["Getsemaní","Mateo 26:36-46","Jesús les pidió a sus amigos que velaran una hora con Él, y se durmieron. Él no los abandonó: «El espíritu a la verdad está dispuesto, pero la carne es débil». Él conoce tu debilidad mejor que tú."],
+  ["La zarza que no se consumía","Éxodo 3","Moisés llevaba 40 años como pastor, olvidado en el desierto, cuando Dios lo llamó desde una zarza ardiendo. No era tarde para él, y tampoco lo es para ti."]
+];
+
+const REFORMA = [
+  ["1380","Juan Wiclef","En Oxford impulsó la primera traducción completa de la Biblia al inglés, copiada a mano. Lo llamaron «la estrella matutina de la Reforma»."],
+  ["1415","Jan Hus","El reformador checo fue quemado en Constanza por predicar que Cristo, y no el papa, es la cabeza de la Iglesia. Un siglo después, Lutero se sorprendió de cuánto coincidía con él."],
+  ["1517","Las 95 tesis","El 31 de octubre Lutero publicó sus tesis contra la venta de indulgencias. Gracias a la imprenta, en semanas se leían por toda Alemania."],
+  ["1521","La Dieta de Worms","Ante el emperador, Lutero se negó a retractarse a menos que lo convencieran por las Escrituras y la razón clara. Su conciencia estaba cautiva a la Palabra de Dios."],
+  ["1526","El Nuevo Testamento de Tyndale","Impreso en Worms y metido de contrabando en Inglaterra dentro de fardos de tela. El obispo de Londres compró copias para quemarlas, y con ese dinero se financió la siguiente edición."],
+  ["1536","La Institución de Calvino","Con 26 años, Juan Calvino publicó la primera edición de su «Institución de la religión cristiana», que marcó a la teología protestante durante siglos."],
+  ["1557","Huida de Sevilla","Casiodoro de Reina, monje del monasterio de San Isidoro del Campo, huyó con otros compañeros cuando la Inquisición descubrió que leían libros protestantes."],
+  ["1569","La Biblia del Oso","Tras doce años de trabajo en el exilio, Reina publicó en Basilea la primera Biblia completa en español traducida de los idiomas originales. En la portada hay un oso comiendo miel."],
+  ["1602","La revisión de Valera","Cipriano de Valera, también huido de Sevilla, revisó la traducción de Reina en Ámsterdam. Por eso tu Biblia se llama Reina-Valera."],
+  ["1662","La Gran Expulsión","Unos dos mil pastores puritanos, entre ellos Thomas Watson, perdieron sus iglesias en Inglaterra por negarse a someterse al Acta de Uniformidad."]
+];
+
+const MEMO = [
+  ["Salmo 119:11","En mi corazón he guardado tus dichos, para no pecar contra ti."],
+  ["Salmo 119:9","¿Con qué limpiará el joven su camino? Con guardar tu palabra."],
+  ["1 Corintios 10:13","No os ha sobrevenido ninguna tentación que no sea humana; pero fiel es Dios, que no os dejará ser tentados más de lo que podéis resistir, sino que dará también juntamente con la tentación la salida, para que podáis soportar."],
+  ["Gálatas 2:20","Con Cristo estoy juntamente crucificado, y ya no vivo yo, mas vive Cristo en mí; y lo que ahora vivo en la carne, lo vivo en la fe del Hijo de Dios, el cual me amó y se entregó a sí mismo por mí."],
+  ["Romanos 8:1","Ahora, pues, ninguna condenación hay para los que están en Cristo Jesús, los que no andan conforme a la carne, sino conforme al Espíritu."],
+  ["Salmo 51:10","Crea en mí, oh Dios, un corazón limpio, y renueva un espíritu recto dentro de mí."],
+  ["Santiago 4:7-8","Someteos, pues, a Dios; resistid al diablo, y huirá de vosotros. Acercaos a Dios, y él se acercará a vosotros."],
+  ["Romanos 12:2","No os conforméis a este siglo, sino transformaos por medio de la renovación de vuestro entendimiento, para que comprobéis cuál sea la buena voluntad de Dios, agradable y perfecta."],
+  ["Filipenses 4:6-7","Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios en toda oración y ruego, con acción de gracias. Y la paz de Dios, que sobrepasa todo entendimiento, guardará vuestros corazones y vuestros pensamientos en Cristo Jesús."],
+  ["Proverbios 3:5-6","Fíate de Jehová de todo tu corazón, y no te apoyes en tu propia prudencia. Reconócelo en todos tus caminos, y él enderezará tus veredas."],
+  ["Isaías 26:3","Tú guardarás en completa paz a aquel cuyo pensamiento en ti persevera; porque en ti ha confiado."],
+  ["Mateo 6:33","Mas buscad primeramente el reino de Dios y su justicia, y todas estas cosas os serán añadidas."],
+  ["Efesios 2:8-9","Porque por gracia sois salvos por medio de la fe; y esto no de vosotros, pues es don de Dios; no por obras, para que nadie se gloríe."],
+  ["1 Juan 1:9","Si confesamos nuestros pecados, él es fiel y justo para perdonar nuestros pecados, y limpiarnos de toda maldad."]
+];
+
+const DOCTRINA = [
+  { t:"Justificación: declarado justo", b:"Ser justificado es ser declarado justo por Dios, no por lo que hiciste, sino porque la justicia de Cristo te es contada. Es un acto, no un proceso: el día que creíste, Dios dijo «justo», y eso no cambia cuando tienes un mal día.",
+    v:[["Justificados, pues, por la fe, tenemos paz para con Dios por medio de nuestro Señor Jesucristo;","Romanos 5:1"],["Al que no conoció pecado, por nosotros lo hizo pecado, para que nosotros fuésemos hechos justicia de Dios en él.","2 Corintios 5:21"]],
+    p:"Cuando te sientas frío, recuerda: tu posición ante Dios no depende de cómo te sientes hoy." },
+  { t:"Santificación: crecer en santidad", b:"La santificación es el proceso de por vida en el que el Espíritu te va haciendo parecido a Cristo. Aquí sí hay lucha, caídas y crecimiento. No te gana la salvación, pero es la prueba de que la tienes. Dios obra, y tú también te ocupas.",
+    v:[["Ocupaos en vuestra salvación con temor y temblor, porque Dios es el que en vosotros produce así el querer como el hacer, por su buena voluntad.","Filipenses 2:12-13"],["Pues la voluntad de Dios es vuestra santificación; que os apartéis de fornicación;","1 Tesalonicenses 4:3"]],
+    p:"Confundir justificación con santificación lleva al legalismo (si mezclas las dos) o a la indiferencia (si ignoras la segunda)." },
+  { t:"La elección: tres posturas", b:"Los cristianos que aman la Biblia han entendido la elección de formas distintas. Aquí tienes un resumen justo de cada una, para que las estudies con los textos en la mano.",
+    cols:[["Calvinismo","Dios eligió incondicionalmente a ciertas personas desde la eternidad. Por la depravación total, el hombre no puede creer sin ser regenerado primero; la gracia es irresistible para los elegidos. Textos: Efesios 1:4-5, Juan 6:44, Romanos 9."],["Arminianismo","El hombre caído no puede creer por sí mismo, pero Dios da una gracia preveniente a todos que lo capacita para responder. La elección se basa en la presciencia de Dios sobre quién creerá. Textos: 1 Timoteo 2:4, Juan 12:32, 1 Pedro 1:2."],["Provisionismo","Dios proveyó salvación para todos en Cristo, y el evangelio, por obra del Espíritu, es suficiente para que cualquiera pueda responder sin necesidad de regeneración previa. La elección se entiende sobre todo de forma corporativa (en Cristo) o para un servicio. Textos: Juan 3:16, 2 Pedro 3:9, Romanos 10:17."]],
+    v:[["Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.","Juan 3:16"],["según nos escogió en él antes de la fundación del mundo, para que fuésemos santos y sin mancha delante de él,","Efesios 1:4"]],
+    p:"Todas afirman la salvación por gracia por medio de la fe. Se puede debatir con firmeza y amarse, como Whitefield y Wesley." },
+  { t:"Seguridad de la salvación", b:"La seguridad no se basa en tus sentimientos ni en tu rendimiento, sino en las promesas de Dios y en la obra terminada de Cristo. A la vez, la Escritura invita a examinarse: una fe verdadera da fruto, aunque sea imperfecto.",
+    v:[["Estas cosas os he escrito a vosotros que creéis en el nombre del Hijo de Dios, para que sepáis que tenéis vida eterna…","1 Juan 5:13"],["Examinaos a vosotros mismos si estáis en la fe; probaos a vosotros mismos.","2 Corintios 13:5"]],
+    p:"Dudar en un día frío no significa no ser salvo. Mira a Cristo, no a tu termómetro espiritual." },
+  { t:"Arrepentimiento continuo", b:"Lutero escribió en su primera tesis que toda la vida del creyente debe ser de arrepentimiento. No es algo que hiciste una vez al convertirte, sino la forma normal de caminar con Dios: volverte una y otra vez.",
+    v:[["El que encubre sus pecados no prosperará; mas el que los confiesa y se aparta alcanzará misericordia.","Proverbios 28:13"],["Los sacrificios de Dios son el espíritu quebrantado; al corazón contrito y humillado no despreciarás tú, oh Dios.","Salmo 51:17"]],
+    p:"El arrepentimiento no es castigarte; es volver a casa." },
+  { t:"La mortificación del pecado", b:"John Owen enseñó que el creyente debe hacer morir el pecado diariamente, pero por el Espíritu, no por la sola fuerza de voluntad. Eso significa reconocer el pecado, odiarlo, cortar sus fuentes y llenar el corazón de Cristo.",
+    v:[["porque si vivís conforme a la carne, moriréis; mas si por el Espíritu hacéis morir las obras de la carne, viviréis.","Romanos 8:13"],["Haced morir, pues, lo terrenal en vosotros: fornicación, impureza, pasiones desordenadas, malos deseos y avaricia, que es idolatría;","Colosenses 3:5"]],
+    p:"Libro clave: «La mortificación del pecado», de John Owen (corto y poderoso)." }
+];
+
+const OT = ["Génesis","Éxodo","Levítico","Números","Deuteronomio","Josué","Jueces","Rut","1 Samuel","2 Samuel","1 Reyes","2 Reyes","1 Crónicas","2 Crónicas","Esdras","Nehemías","Ester","Job","Salmos","Proverbios","Eclesiastés","Cantares","Isaías","Jeremías","Lamentaciones","Ezequiel","Daniel","Oseas","Joel","Amós","Abdías","Jonás","Miqueas","Nahúm","Habacuc","Sofonías","Hageo","Zacarías","Malaquías"];
+
+/* contenido extra que llega de la base de datos (lo agrega Claude) */
+const EXTRA = { biblia:[], frase:[], reforma:[], vida:[], memoria:[], doctrina:[] };
+let MSG = null;
+
+/* ===================== ALMACENAMIENTO ===================== */
+// Con base de datos (en Claude): se guarda en tu cuenta. Sin ella (GitHub): en este dispositivo.
+const S = {
+  db:null, uid:null, progRef:null, prayCol:null, diaryCol:null,
+  prog:{ log:{}, ot:[], memo:{}, res:{} },
+  pray:[], diary:[], q:Promise.resolve()
+};
+(function loadLocal(){
+  const p = LS.get("pa2-prog", null);
+  if(p) S.prog = Object.assign(S.prog, p);
+  else { S.prog.log = LS.get("pa-log", {}); S.prog.ot = LS.get("pa-ot", []); }
+  S.pray = LS.get("pa2-pray", []); S.diary = LS.get("pa2-diary", []);
+})();
+function saveProg(){
+  const snapshot = JSON.parse(JSON.stringify(S.prog));
+  if(S.progRef){ S.q = S.q.then(()=>S.progRef.set(snapshot)).catch(e=>console.warn("No se pudo guardar", e)); }
+  else LS.set("pa2-prog", snapshot);
+}
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+async function addPray(text){
+  const item = { texto:text, creada:today, respondida:null, nota:"" };
+  if(S.prayCol){ try{ await S.prayCol.add(item); }catch(e){ console.warn(e); } }
+  else { S.pray.unshift(Object.assign({id:uid()}, item)); LS.set("pa2-pray", S.pray); renderPray(); }
+}
+async function updPray(id, patch){
+  if(S.prayCol){ try{ await S.prayCol.doc(id).update(patch); }catch(e){ console.warn(e); } }
+  else { const p=S.pray.find(x=>x.id===id); if(p) Object.assign(p,patch); LS.set("pa2-pray", S.pray); renderPray(); }
+}
+async function delPray(id){
+  if(S.prayCol){ try{ await S.prayCol.doc(id).delete(); }catch(e){ console.warn(e); } }
+  else { S.pray=S.pray.filter(x=>x.id!==id); LS.set("pa2-pray", S.pray); renderPray(); }
+}
+async function addDiary(entry){
+  if(S.diaryCol){ await S.diaryCol.add(entry); }
+  else { S.diary.unshift(Object.assign({id:uid()}, entry)); LS.set("pa2-diary", S.diary); renderDiary(); }
+}
+async function delDiary(id){
+  if(S.diaryCol){ try{ await S.diaryCol.doc(id).delete(); }catch(e){ console.warn(e); } }
+  else { S.diary=S.diary.filter(x=>x.id!==id); LS.set("pa2-diary", S.diary); renderDiary(); }
+}
+
+/* ===================== HOY ===================== */
+const h = now.getHours();
+document.getElementById("greet").textContent = (h<12?"Buenos días":h<19?"Buenas tardes":"Buenas noches") + ", David";
+const isNight = h>=22 || h<5;
+if(isNight){ document.getElementById("nightCard").hidden=false; document.getElementById("nightTime").textContent = "Son las " + now.toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}); }
+const dom = now.getDate();
+const psalm = ((dom-1) % 30) * 5 + 1 + (dayNum % 5);
+const prov = Math.min(dom,31);
+const nextBook = () => OT.find(b => !S.prog.ot.includes(b));
+function paintLinks(){
+  const nb = nextBook();
+  const items = [["Salmo","Salmo "+psalm,"Salmos "+psalm],["Proverbio","Prov. "+prov,"Proverbios "+prov],nb?["Tu AT",nb+" 1",nb+" 1"]:["Repaso","Juan 15","Juan 15"]];
+  document.getElementById("todayLinks").innerHTML = items.map(i=>`<a href="${bg(i[2])}" target="_blank" rel="noopener"><small>${i[0]}</small><b>${esc(i[1])}</b></a>`).join("");
+}
+const mr=document.getElementById("markRead"), mp=document.getElementById("markPray");
+function paintMarks(){
+  const t=S.prog.log[today]||{};
+  mr.setAttribute("aria-pressed", !!t.r); mr.textContent = t.r ? "✓ Leí hoy" : "Leí hoy";
+  mp.setAttribute("aria-pressed", !!t.p); mp.textContent = t.p ? "✓ Oré hoy" : "Oré hoy";
+  paintCal();
+}
+function toggle(kind, force){
+  const t=Object.assign({}, S.prog.log[today]||{}); const nv = force===undefined ? !t[kind] : force;
+  if(!!t[kind]===nv) return;
+  t[kind]=nv; S.prog.log[today]=t; saveProg(); paintMarks();
+}
+mr.onclick=()=>toggle("r"); mp.onclick=()=>toggle("p");
+function paintCal(){
+  const cal=document.getElementById("cal"); cal.innerHTML="";
+  let count=0;
+  for(let i=34;i>=0;i--){
+    const d=new Date(now); d.setDate(d.getDate()-i); const k=dayKey(d); const e=S.prog.log[k]||{};
+    const s=document.createElement("span");
+    s.className=(e.r&&e.p)?"rp":e.r?"r":e.p?"p":"";
+    if(e.r||e.p) count++;
+    if(i===0) s.classList.add("today");
+    s.title=d.toLocaleDateString("es",{day:"numeric",month:"short"});
+    cal.appendChild(s);
+  }
+  document.getElementById("calMsg").textContent = count===0
+    ? "Hoy puede ser el primer cuadro. No hace falta compensar los días vacíos: la misericordia es nueva cada mañana."
+    : `Estuviste con Dios ${count} de los últimos 35 días. No es una nota; es un recordatorio de su fidelidad.`;
+}
+const allQuotes = () => QUOTES.concat(EXTRA.frase.map(f=>[f.texto,f.autor||""]));
+function paintQod(){ const q=allQuotes(); const qd=q[dayNum%q.length]; document.getElementById("qod").innerHTML = `${esc(qd[0])}<cite>${esc(qd[1])}</cite>`; }
+const otEl=document.getElementById("otBooks");
+OT.forEach((b,i)=>{
+  const x=document.createElement("button"); x.type="button"; x.id="ot-"+i; x.textContent=b;
+  x.onclick=()=>{ S.prog.ot = S.prog.ot.includes(b) ? S.prog.ot.filter(z=>z!==b) : [...S.prog.ot,b]; saveProg(); paintOT(); };
+  otEl.appendChild(x);
+});
+function paintOT(){
+  [...otEl.children].forEach((x,i)=>x.setAttribute("aria-pressed", S.prog.ot.includes(OT[i])));
+  const n=S.prog.ot.length, nb=nextBook();
+  document.getElementById("otBar").style.width = (n/39*100)+"%";
+  document.getElementById("otMsg").textContent = n===39 ? "¡Leíste todo el Antiguo Testamento! Gloria a Dios." : `${n} de 39 libros leídos. Siguiente sugerido: ${nb}.`;
+  paintLinks();
+}
+function paintMsg(){
+  const c=document.getElementById("msgCard");
+  if(!MSG || !MSG.texto){ c.hidden=true; return; }
+  c.hidden=false;
+  document.getElementById("msgDate").textContent = MSG.fecha===today ? "Para ti, hoy" : "Para ti · " + fmtDate(MSG.fecha||today);
+  document.getElementById("msgText").textContent = MSG.texto;
+}
+
+/* ===================== VOLVER ===================== */
+const moodsEl=document.getElementById("moods"), rescue=document.getElementById("rescue");
+Object.entries(MOODS).forEach(([key,m])=>{
+  const c=document.createElement("button"); c.type="button"; c.className="chip"; c.id="mood-"+key; c.textContent=m.k;
+  c.onclick=()=>showMood(key); moodsEl.appendChild(c);
+});
+function showMood(key){
+  const m=MOODS[key];
+  [...moodsEl.children].forEach(c=>c.setAttribute("aria-pressed", c.id==="mood-"+key));
+  rescue.innerHTML = `<h3>${m.t}</h3><p class="read">${m.b}</p>${m.v.map(v=>V(v[0],v[1])).join("")}
+    ${Q(m.q[0], m.q[1])}<div class="step"><b>Un paso ahora:</b> ${m.s}</div>
+    <div class="row"><a class="btn flame" href="#orar">Orar ahora</a><a class="btn ghost" href="#historias">Ver historias</a></div>`;
+}
+showMood("frio");
+
+/* ===================== ORAR ===================== */
+let method="acas", mins=5, running=false, left=mins*60, total=mins*60, timerId=null, pi=0;
+const mEl=document.getElementById("methods"), dEl=document.getElementById("durations");
+const fg=document.getElementById("ringFg"), rt=document.getElementById("ringTxt"), pr=document.getElementById("prompt"), sb=document.getElementById("startPray");
+const C=2*Math.PI*92; fg.style.strokeDasharray=C; fg.style.strokeDashoffset=0;
+Object.entries(METHODS).forEach(([k,m])=>{
+  const c=document.createElement("button"); c.type="button"; c.className="chip"; c.id="m-"+k; c.textContent=m.k;
+  c.onclick=()=>{ method=k; pi=0; paintPrayer(); }; mEl.appendChild(c);
+});
+[1,2,5,10,15].forEach(n=>{
+  const c=document.createElement("button"); c.type="button"; c.className="chip"; c.id="dur-"+n; c.textContent=n+" min";
+  c.onclick=()=>{ if(running) return; mins=n; left=total=n*60; paintPrayer(); }; dEl.appendChild(c);
+});
+const fmt=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+function paintPrompt(){ const p=METHODS[method].p[pi % METHODS[method].p.length]; pr.innerHTML=`<b>${p[0]}</b>${p[1]}`; }
+function paintPrayer(){
+  [...mEl.children].forEach(c=>c.setAttribute("aria-pressed", c.id==="m-"+method));
+  [...dEl.children].forEach(c=>c.setAttribute("aria-pressed", c.id==="dur-"+mins));
+  document.getElementById("methodDesc").textContent=METHODS[method].d;
+  rt.textContent=fmt(left); fg.style.strokeDashoffset = C*(1-left/total);
+  paintPrompt();
+}
+function stopTimer(done){
+  clearInterval(timerId); running=false; sb.textContent="Empezar";
+  if(done){ pr.innerHTML=`<b>Amén</b>Oraste ${mins} ${mins===1?"minuto":"minutos"}. Lo marqué en tu calendario. Mañana, quizá uno más.`; toggle("p", true); left=total; rt.textContent=fmt(left); fg.style.strokeDashoffset=0; }
+}
+sb.onclick=()=>{
+  if(running){ stopTimer(false); return; }
+  running=true; sb.textContent="Pausar"; const steps=METHODS[method].p.length; const every=Math.max(15, Math.floor(total/steps));
+  timerId=setInterval(()=>{
+    left--; rt.textContent=fmt(left); fg.style.strokeDashoffset = C*(1-left/total);
+    if((total-left)%every===0 && left>0){ pi++; paintPrompt(); }
+    if(left<=0) stopTimer(true);
+  },1000);
+};
+document.getElementById("nextPrompt").onclick=()=>{ pi++; paintPrompt(); };
+paintPrayer();
+
+/* ===================== HISTORIAS (feed) ===================== */
+const feedEl=document.getElementById("feed"), ffEl=document.getElementById("feedFilter");
+const allLives = () => LIVES.concat(EXTRA.vida.map(v=>({n:v.nombre,y:v.anios||"",m:(v.nombre||"?").split(" ").map(w=>w[0]).join("").slice(0,2),tag:v.tag||"",b:v.bio||"",l:v.leccion||"",q:[v.frase||"",v.autor_frase||v.nombre||""],r:v.leer||"",nuevo:true})));
+function buildCards(){
+  const cards=[]; const nw = x => x ? '<span class="new">NUEVO</span>' : "";
+  BIBLE.concat(EXTRA.biblia.map(b=>[b.titulo,b.ref,b.texto,true])).forEach(b=>cards.push({t:"biblia",h:`<span class="kind">Historia bíblica${nw(b[3])}</span><h2>${esc(b[0])}</h2><p class="read">${esc(b[2])}</p><a class="ref" href="${bg(String(b[1]).split(" · ")[0])}" target="_blank" rel="noopener">Leer ${esc(b[1])} →</a>`}));
+  REFORMA.concat(EXTRA.reforma.map(r=>[r.anio,r.titulo,r.texto,true])).forEach(r=>cards.push({t:"reforma",h:`<span class="kind">Historia de la Iglesia${nw(r[3])}</span><span class="year">${esc(r[0])}</span><h2>${esc(r[1])}</h2><p class="read">${esc(r[2])}</p>`}));
+  allQuotes().forEach(q=>cards.push({t:"frase",h:`<span class="kind">Para pensar</span><blockquote>${esc(q[0])}<cite>${esc(q[1])}</cite></blockquote>`}));
+  allLives().forEach((l,i)=>cards.push({t:"vida",h:`<span class="kind">Vidas · ${esc(l.y)}${nw(l.nuevo)}</span><h2>${esc(l.n)}</h2><p class="muted">${esc(l.tag)}</p><p class="read">${esc(l.l)}</p><a class="ref" href="#aprender" data-life="${i}">Leer su historia →</a>`}));
+  return cards;
+}
+let all=[], filter="todo";
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function renderFeed(){
+  const list = filter==="todo" ? all : all.filter(c=>c.t===filter);
+  const out=[];
+  if(isNight) out.push({t:"pausa",h:`<span class="kind">Es tarde</span><h2>¿Una historia y a dormir?</h2><p class="read">Lee una o dos tarjetas y cierra el día orando. Mañana hay más.</p><div class="row"><a class="btn" href="#orar">Orar y dormir</a></div>`});
+  list.forEach((c,i)=>{ out.push(c); if(filter==="todo" && (i+1)%8===0) out.push({t:"pausa",h:`<span class="kind">Pausa</span><h2>Llevas ${i+1} historias</h2><p class="read">Lo que acabas de leer puede convertirse en oración. ¿Le hablas a Dios dos minutos sobre esto?</p><div class="row"><a class="btn" href="#orar">Orar 2 minutos</a></div>`}); });
+  feedEl.innerHTML = out.map(c=>`<article class="slide ${c.t}">${c.h}</article>`).join("");
+  feedEl.scrollTop=0;
+}
+function rebuildFeed(){ all=shuffle(buildCards()); renderFeed(); }
+[["todo","Todo"],["biblia","Biblia"],["reforma","Iglesia"],["vida","Vidas"],["frase","Frases"]].forEach(([k,l])=>{
+  const c=document.createElement("button"); c.type="button"; c.className="chip"; c.id="ff-"+k; c.textContent=l;
+  c.setAttribute("aria-pressed", k==="todo");
+  c.onclick=()=>{ filter=k; [...ffEl.children].forEach(x=>x.setAttribute("aria-pressed", x===c)); renderFeed(); };
+  ffEl.appendChild(c);
+});
+document.getElementById("shuffle").onclick=()=>{ shuffle(all); renderFeed(); };
+feedEl.addEventListener("click",e=>{ const a=e.target.closest("[data-life]"); if(a){ showLearn("vidas"); setTimeout(()=>{ const d=document.getElementById("life-"+a.dataset.life); if(d){ d.open=true; d.scrollIntoView({block:"start"}); } },60); } });
+
+/* ===================== APRENDER ===================== */
+function renderLives(){
+  document.getElementById("lives").innerHTML = allLives().map((l,i)=>`
+    <details class="life" id="life-${i}">
+      <summary><span class="mono" aria-hidden="true">${esc(l.m)}</span><span><strong>${esc(l.n)}${l.nuevo?'<span class="new">NUEVO</span>':""}</strong><small>${esc(l.y)} · ${esc(l.tag)}</small></span></summary>
+      <div class="body"><p class="read">${esc(l.b)}</p>${l.q[0]?Q(l.q[0],l.q[1]):""}<div class="lesson"><b>Para ti:</b> ${esc(l.l)}</div><p class="reads">${esc(l.r)}</p></div>
+    </details>`).join("");
+}
+function renderDoctrine(){
+  const list = DOCTRINA.concat(EXTRA.doctrina.map(d=>({t:d.titulo,b:d.texto,v:d.versiculos||[],p:d.practica||"",nuevo:true})));
+  document.getElementById("doctrine").innerHTML = list.map((d,i)=>`
+    <details class="life" id="doc-${i}">
+      <summary><span class="mono" aria-hidden="true">${i+1}</span><span><strong>${esc(d.t)}${d.nuevo?'<span class="new">NUEVO</span>':""}</strong><small>${(d.v||[]).map(v=>esc(v[1])).join(" · ")}</small></span></summary>
+      <div class="body"><p class="read">${esc(d.b)}</p>
+        ${d.cols?`<div class="cols">${d.cols.map(c=>`<div><h4>${esc(c[0])}</h4>${esc(c[1])}</div>`).join("")}</div>`:""}
+        ${(d.v||[]).map(v=>V(v[0],v[1])).join("")}
+        ${d.p?`<div class="lesson"><b>Para ti:</b> ${esc(d.p)}</div>`:""}</div>
+    </details>`).join("");
+}
+const lt=document.getElementById("learnTabs");
+function showLearn(k){
+  document.getElementById("lt-vidas").setAttribute("aria-pressed", k==="vidas");
+  document.getElementById("lt-doctrina").setAttribute("aria-pressed", k==="doctrina");
+  document.getElementById("lvVidas").hidden = k!=="vidas";
+  document.getElementById("lvDoctrina").hidden = k!=="doctrina";
+}
+document.getElementById("lt-vidas").onclick=()=>showLearn("vidas");
+document.getElementById("lt-doctrina").onclick=()=>showLearn("doctrina");
+
+/* ===================== YO ===================== */
+const SEGS={oracion:"pOracion",memo:"pMemo",res:"pRes",diario:"pDiario"};
+function showSeg(k){
+  Object.entries(SEGS).forEach(([s,id])=>{ document.getElementById(id).hidden = s!==k; document.getElementById("sg-"+s).setAttribute("aria-pressed", s===k); });
+  if(k==="memo") renderMemo();
+}
+Object.keys(SEGS).forEach(s=>document.getElementById("sg-"+s).onclick=()=>showSeg(s));
+document.addEventListener("click",e=>{ const a=e.target.closest("[data-seg]"); if(a) setTimeout(()=>showSeg(a.dataset.seg),0); });
+
+// Lista de oración
+const prayIn=document.getElementById("prayIn");
+document.getElementById("prayAdd").onclick=()=>{ const t=prayIn.value.trim(); if(!t) return; prayIn.value=""; addPray(t); };
+prayIn.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); document.getElementById("prayAdd").click(); } });
+function prayItem(p, compact){
+  const d=document.createElement("div"); d.className="item"+(p.respondida?" ans":"");
+  const meta=document.createElement("span"); meta.className="meta";
+  meta.textContent = p.respondida ? `Dios respondió · ${fmtDate(p.respondida)} (pedida el ${fmtDate(p.creada)})` : `Desde el ${fmtDate(p.creada)}`;
+  const tx=document.createElement("p"); tx.className="txt"; tx.textContent=p.texto;
+  d.append(meta,tx);
+  if(p.nota){ const n=document.createElement("p"); n.className="small muted"; n.textContent="Cómo respondió: "+p.nota; d.append(n); }
+  if(!compact){
+    const row=document.createElement("div"); row.className="row";
+    if(!p.respondida){
+      const b=document.createElement("button"); b.className="btn ghost sm"; b.type="button"; b.textContent="Dios respondió";
+      b.onclick=()=>{
+        if(row.querySelector("input")) return;
+        const i=document.createElement("input"); i.type="text"; i.placeholder="¿Cómo respondió? (opcional)"; i.maxLength=300; i.id="ans-"+p.id;
+        const ok=document.createElement("button"); ok.className="btn flame sm"; ok.type="button"; ok.textContent="Guardar";
+        ok.onclick=()=>updPray(p.id,{respondida:today,nota:i.value.trim()});
+        row.append(i,ok); i.focus();
+      };
+      row.append(b);
+    }
+    const x=document.createElement("button"); x.className="btn ghost sm"; x.type="button"; x.textContent="Quitar";
+    x.onclick=()=>{ if(x.dataset.c){ delPray(p.id); } else { x.dataset.c="1"; x.textContent="¿Seguro? Toca otra vez"; } };
+    row.append(x); d.append(row);
+  }
+  return d;
+}
+function renderPray(){
+  const L=document.getElementById("prayList"); L.innerHTML="";
+  const sorted=[...S.pray].sort((a,b)=>(!!a.respondida - !!b.respondida) || String(b.creada).localeCompare(String(a.creada)));
+  if(!sorted.length){ L.innerHTML='<p class="muted small">Todavía no hay peticiones. Agrega la primera arriba.</p>'; }
+  sorted.forEach(p=>L.append(prayItem(p,false)));
+  const P=document.getElementById("prayPending"); P.innerHTML="";
+  const pend=sorted.filter(p=>!p.respondida).slice(0,5);
+  if(!pend.length) P.innerHTML='<p class="muted small">No tienes peticiones pendientes. Agrégalas en «Yo».</p>';
+  pend.forEach(p=>P.append(prayItem(p,true)));
+  const answered=S.pray.filter(p=>p.respondida).length;
+  if(answered) { const n=document.createElement("p"); n.className="small muted"; n.textContent=`Dios ya respondió ${answered} ${answered===1?"petición":"peticiones"} de tu lista.`; L.prepend(n); }
+}
+
+// Memorizar (repaso espaciado sencillo: cajas 0–5)
+const GAPS=[0,1,2,4,8,16];
+const allMemo = () => MEMO.concat(EXTRA.memoria.map(m=>[m.ref,m.texto]));
+let memoCur=null, memoShown=false;
+const dueList = () => allMemo().filter(([r])=>{ const s=S.prog.memo[r]; return !s || s.next<=today; });
+function memoBoxes(r){ const b=(S.prog.memo[r]||{}).b||0; return `<div class="box" aria-label="Nivel ${b} de 5">${[1,2,3,4,5].map(i=>`<i class="${i<=b?"f":""}"></i>`).join("")}</div>`; }
+function renderMemo(){
+  const due=dueList(); const fl=document.getElementById("flash");
+  document.getElementById("memoInfo").textContent = due.length ? `Te tocan ${due.length} ${due.length===1?"versículo":"versículos"} hoy. Toca la tarjeta para ver el texto.` : "Terminaste el repaso de hoy. Vuelve mañana.";
+  document.getElementById("memoBtns").hidden = !due.length;
+  if(!due.length){ fl.innerHTML='<span class="ref">¡Listo!</span><span class="text">«En mi corazón he guardado tus dichos, para no pecar contra ti.»</span>'; memoCur=null; }
+  else { memoCur=due[0]; memoShown=false; fl.innerHTML=`<span class="ref">${esc(memoCur[0])}</span><span class="muted small">Dilo de memoria y luego toca para comprobar</span>${memoBoxes(memoCur[0])}`; }
+  document.getElementById("memoAll").innerHTML = allMemo().map(([r,t])=>{ const s=S.prog.memo[r]; return `<div class="item"><span class="meta">${esc(r)} · ${s?(s.b>=5?"Memorizado":"Próximo repaso: "+fmtDate(s.next)):"Nuevo"}</span><p class="txt">${esc(t)}</p></div>`; }).join("");
+  const n=dueList().length;
+  document.getElementById("memoTodayTxt").textContent = n ? `Tienes ${n} ${n===1?"versículo":"versículos"} para repasar hoy. Toma menos de 3 minutos.` : "Repaso de hoy completado. ¡Bien!";
+}
+function flip(){ if(!memoCur) return; memoShown=!memoShown; const fl=document.getElementById("flash");
+  fl.innerHTML = memoShown ? `<span class="ref">${esc(memoCur[0])}</span><span class="text">${esc(memoCur[1])}</span>${memoBoxes(memoCur[0])}` : `<span class="ref">${esc(memoCur[0])}</span><span class="muted small">Dilo de memoria y luego toca para comprobar</span>${memoBoxes(memoCur[0])}`; }
+document.getElementById("flash").onclick=flip;
+document.getElementById("flash").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); flip(); } };
+function grade(ok){
+  if(!memoCur) return; const r=memoCur[0]; const s=Object.assign({b:0},S.prog.memo[r]);
+  s.b = ok ? Math.min(5,s.b+1) : Math.max(0,s.b-1);
+  s.next = ok ? addDays(today, GAPS[s.b]) : today;
+  if(!ok){ // mándalo al final de la cola de hoy
+    S.prog.memo[r]=s; const due=dueList(); if(due.length>1){ memoCur=due[(due.findIndex(d=>d[0]===r)+1)%due.length]; }
+  } else S.prog.memo[r]=s;
+  saveProg(); renderMemo();
+}
+document.getElementById("memoOk").onclick=()=>grade(true);
+document.getElementById("memoAgain").onclick=()=>{ if(!memoCur) return; const r=memoCur[0]; const s=Object.assign({b:0},S.prog.memo[r]); s.b=Math.max(0,s.b-1); s.next=addDays(today,1); S.prog.memo[r]=s; saveProg(); renderMemo(); };
+
+// Resoluciones del mes
+const resIn=document.getElementById("resIn");
+document.getElementById("resTitle").textContent = "Resoluciones de " + now.toLocaleDateString("es",{month:"long",year:"numeric"});
+function resItems(){ return (S.prog.res && S.prog.res[monthKey]) || []; }
+function setRes(items){ S.prog.res = Object.assign({}, S.prog.res, {[monthKey]:items}); saveProg(); renderRes(); }
+document.getElementById("resAdd").onclick=()=>{ const t=resIn.value.trim(); if(!t) return; const it=resItems(); if(it.length>=5) { resIn.placeholder="Máximo 5: termina o quita una"; return; } resIn.value=""; setRes([...it,{t,done:false}]); };
+resIn.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); document.getElementById("resAdd").click(); } });
+function renderRes(){
+  const L=document.getElementById("resList"); L.innerHTML=""; const it=resItems();
+  if(!it.length){ L.innerHTML='<p class="muted small">Por ejemplo: «Leer un capítulo antes de abrir cualquier red social».</p>'; }
+  it.forEach((r,i)=>{
+    const d=document.createElement("div"); d.className="res"+(r.done?" done":"");
+    const c=document.createElement("input"); c.type="checkbox"; c.id="res-"+i; c.checked=!!r.done; c.setAttribute("aria-label","Cumplida");
+    c.onchange=()=>{ const n=resItems().map((x,j)=>j===i?Object.assign({},x,{done:c.checked}):x); setRes(n); };
+    const t=document.createElement("span"); t.className="t"; t.textContent=r.t;
+    const x=document.createElement("button"); x.className="x"; x.type="button"; x.textContent="×"; x.setAttribute("aria-label","Quitar");
+    x.onclick=()=>setRes(resItems().filter((_,j)=>j!==i));
+    d.append(c,t,x); L.append(d);
+  });
+}
+
+// Diario
+const diaryPrompts=["¿Qué te mostró hoy el texto acerca de Dios?","¿Qué pecado o qué promesa encontraste?","¿Cómo puedes obedecer esto hoy?","Escribe una oración a partir de lo que leíste."];
+document.getElementById("diaryPrompt").textContent = diaryPrompts[dayNum%diaryPrompts.length];
+const diaryIn=document.getElementById("diaryIn"), diaryRef=document.getElementById("diaryRef"), diaryMsg=document.getElementById("diaryMsg");
+const DRAFT="pa2-diary-draft";
+diaryIn.value = LS.get(DRAFT, "");
+diaryIn.addEventListener("input",()=>LS.set(DRAFT, diaryIn.value));
+document.getElementById("diaryAdd").onclick=async()=>{
+  const t=diaryIn.value.trim(); if(!t){ diaryMsg.textContent="Escribe algo primero."; return; }
+  try{ await addDiary({fecha:today, lectura:diaryRef.value.trim(), texto:t, creada:Date.now()}); diaryIn.value=""; diaryRef.value=""; LS.set(DRAFT,""); diaryMsg.textContent="Guardado."; if(!(S.prog.log[today]||{}).r) toggle("r",true); }
+  catch(e){ diaryMsg.textContent="No se pudo guardar. Tu texto sigue aquí; inténtalo de nuevo."; }
+};
+function renderDiary(){
+  const L=document.getElementById("diaryList"); L.innerHTML="";
+  const list=[...S.diary].sort((a,b)=>(b.creada||0)-(a.creada||0));
+  if(!list.length){ L.innerHTML='<p class="muted small">Tus entradas aparecerán aquí.</p>'; return; }
+  list.forEach(e=>{
+    const d=document.createElement("div"); d.className="item";
+    const m=document.createElement("span"); m.className="meta"; m.textContent=fmtDate(e.fecha)+(e.lectura?" · "+e.lectura:"");
+    const t=document.createElement("p"); t.className="txt"; t.textContent=e.texto;
+    const x=document.createElement("button"); x.className="btn ghost sm"; x.type="button"; x.textContent="Borrar"; x.style.alignSelf="flex-start";
+    x.onclick=()=>{ if(x.dataset.c) delDiary(e.id); else { x.dataset.c="1"; x.textContent="¿Seguro? Toca otra vez"; } };
+    d.append(m,t,x); L.append(d);
+  });
+}
+
+/* ===================== RUTAS ===================== */
+const views=["hoy","volver","orar","historias","aprender","yo"];
+function route(){
+  const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : "hoy";
+  document.querySelectorAll("[data-view]").forEach(s=>s.hidden = s.dataset.view!==v);
+  document.querySelectorAll("nav.tabs a").forEach(a=>{ if(a.dataset.go===v) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  if(v==="yo" && !document.getElementById("pMemo").hidden) renderMemo();
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+
+/* ===================== PINTAR TODO ===================== */
+function renderAll(){ paintOT(); paintMarks(); paintQod(); paintMsg(); renderPray(); renderMemo(); renderRes(); renderDiary(); }
+renderAll(); rebuildFeed(); renderLives(); renderDoctrine(); route();
+
+/* ===================== CONEXIÓN A LA BASE DE DATOS ===================== */
+(async function connect(){
+  if(!window.claude || typeof window.claude.use!=="function") return; // copia de GitHub: se queda en el dispositivo
+  let db=null, user=null;
+  try{ [db,user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]); }catch(e){ return; }
+  if(!db) return;
+  const syncEl=document.getElementById("sync");
+  // Contenido que agrega Claude (compartido, solo lectura para la página)
+  db.collection("contenido").onSnapshot(snap=>{
+    Object.keys(EXTRA).forEach(k=>EXTRA[k]=[]);
+    snap.docs.forEach(d=>{ const x=d.data(); if(x && EXTRA[x.tipo]) EXTRA[x.tipo].push(x); });
+    rebuildFeed(); renderLives(); renderDoctrine(); paintQod(); renderMemo();
+  }, e=>console.warn("contenido", e));
+  db.collection("mensajes").orderBy("fecha","desc").limit(1).onSnapshot(snap=>{
+    MSG = snap.empty ? null : snap.docs[0].data(); paintMsg();
+  }, e=>console.warn("mensajes", e));
+  // Datos personales (privados)
+  const id = user ? await user.id() : null;
+  if(!id){ syncEl.lastChild.textContent="Guardado en este dispositivo"; return; }
+  S.db=db; S.uid=id;
+  const progRef = db.collection("data/users/"+id).doc("progreso");
+  const prayCol = progRef.collection("oraciones"), diaryCol = progRef.collection("diario");
+  S.prayCol=prayCol; S.diaryCol=diaryCol;
+  const timer=setTimeout(()=>{ syncEl.lastChild.textContent="Sin conexión: usando este dispositivo"; },10000);
+  let first=true;
+  progRef.onSnapshot(snap=>{
+    if(!snap.metadata.fromCache) clearTimeout(timer);
+    S.progRef=progRef; S.prayCol=prayCol; S.diaryCol=diaryCol;
+    syncEl.classList.add("on"); syncEl.lastChild.textContent="Sincronizado en tu cuenta";
+    if(snap.exists){ S.prog = Object.assign({log:{},ot:[],memo:{},res:{}}, snap.data()); }
+    else if(first && !snap.metadata.fromCache){
+      // primera vez: sube lo que ya tenías en este dispositivo
+      const local=LS.get("pa2-prog",null) || {log:LS.get("pa-log",{}),ot:LS.get("pa-ot",[]),memo:{},res:{}};
+      if(Object.keys(local.log||{}).length || (local.ot||[]).length){ S.prog=Object.assign({log:{},ot:[],memo:{},res:{}},local); saveProg(); }
+    }
+    first=false; renderAll();
+  }, e=>{ clearTimeout(timer); syncEl.lastChild.textContent="Guardado en este dispositivo"; S.progRef=null; S.prayCol=null; S.diaryCol=null; });
+  prayCol.onSnapshot(snap=>{ S.prayCol=prayCol; S.pray=snap.docs.map(d=>Object.assign({id:d.id},d.data())); renderPray(); }, e=>console.warn("oraciones",e));
+  diaryCol.onSnapshot(snap=>{ S.diaryCol=diaryCol; S.diary=snap.docs.map(d=>Object.assign({id:d.id},d.data())); renderDiary(); }, e=>console.warn("diario",e));
+})();
+})();
+</script>
+</body>
+</html>
