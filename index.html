@@ -211,7 +211,9 @@ nav.tabs a[aria-current="page"]{color:var(--flame)}
 
   <div class="msg" id="msgCard" hidden>
     <span class="eyebrow" id="msgDate">Para ti, hoy</span>
+    <h3 id="msgTitle" hidden></h3>
     <p class="read" id="msgText"></p>
+    <div id="msgVerse"></div>
   </div>
 
   <div class="card">
@@ -658,7 +660,9 @@ const prov = Math.min(dom,31);
 const nextBook = () => OT.find(b => !S.prog.ot.includes(b));
 function paintLinks(){
   const nb = nextBook();
-  const items = [["Salmo","Salmo "+psalm,"Salmos "+psalm],["Proverbio","Prov. "+prov,"Proverbios "+prov],nb?["Tu AT",nb+" 1",nb+" 1"]:["Repaso","Juan 15","Juan 15"]];
+  let items = [["Salmo","Salmo "+psalm,"Salmos "+psalm],["Proverbio","Prov. "+prov,"Proverbios "+prov],nb?["Tu AT",nb+" 1",nb+" 1"]:["Repaso","Juan 15","Juan 15"]];
+  const plan = (MSG && MSG.fecha===today && Array.isArray(MSG.lecturas)) ? MSG.lecturas.slice(0,2) : [];
+  if(plan.length) items = [items[0]].concat(plan.map((r,i)=>[i===0?"Plan · AT":"Plan · NT", r, r]));
   document.getElementById("todayLinks").innerHTML = items.map(i=>`<a href="${bg(i[2])}" target="_blank" rel="noopener"><small>${i[0]}</small><b>${esc(i[1])}</b></a>`).join("");
 }
 const mr=document.getElementById("markRead"), mp=document.getElementById("markPray");
@@ -711,6 +715,9 @@ function paintMsg(){
   c.hidden=false;
   document.getElementById("msgDate").textContent = MSG.fecha===today ? "Para ti, hoy" : "Para ti · " + fmtDate(MSG.fecha||today);
   document.getElementById("msgText").textContent = MSG.texto;
+  const ti=document.getElementById("msgTitle"); ti.hidden=!MSG.titulo; ti.textContent=MSG.titulo||"";
+  const vv=MSG.versiculo; document.getElementById("msgVerse").innerHTML = (vv && vv.texto) ? V(vv.texto, vv.ref||"") : "";
+  paintLinks();
 }
 
 /* ===================== VOLVER ===================== */
@@ -985,7 +992,7 @@ renderAll(); rebuildFeed(); renderLives(); renderDoctrine(); route();
     snap.docs.forEach(d=>{ const x=d.data(); if(x && EXTRA[x.tipo]) EXTRA[x.tipo].push(x); });
     rebuildFeed(); renderLives(); renderDoctrine(); paintQod(); renderMemo();
   }, e=>console.warn("contenido", e));
-  db.collection("mensajes").orderBy("fecha","desc").limit(1).onSnapshot(snap=>{
+  db.collection("mensajes").where("fecha","<=",today).orderBy("fecha","desc").limit(1).onSnapshot(snap=>{
     MSG = snap.empty ? null : snap.docs[0].data(); paintMsg();
   }, e=>console.warn("mensajes", e));
   // Datos personales (privados)
